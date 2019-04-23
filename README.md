@@ -7,7 +7,7 @@
 	 nome di una materia e in una riga sotto 
 	 i voti __separati da una spazio__
 
-	 Puoi scrivere cosi (non importa quanti a capo metti):
+	 __-Puoi scrivere cosi (non importa quanti a capo metti)__:
 
 	 matematica 
 	 6 8.5
@@ -16,7 +16,7 @@
 	 9 3.5
 
 
-	 Ma **non** così
+	 __-Ma **non** così__
 
 	 6, 7
 	 matematica
