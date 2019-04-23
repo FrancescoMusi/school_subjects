@@ -1,13 +1,14 @@
 import os
 import sys
 
+#classe contenente i colori
 class FgColors:
 	white = '\033[97m'
 	red = '\033[31m'
 	green = '\033[32m'
 	rs = '\033[00m'
 
-
+#pulisce lo schermo
 def clear():
 	IS_WINDOWS = sys.platform.lower() == "win32"
 	if IS_WINDOWS:
@@ -15,7 +16,7 @@ def clear():
 	else:
 		os.system('clear')
 
-
+#legge il file txt e restituisce una lista con le righe
 def getRows(file):
 	file = open('./'+file, 'r')
 	r = file.readlines()
@@ -28,8 +29,11 @@ def getRows(file):
 
 	return rows
 
-
+#stampa tutto colorato
 def draw(rows):
+
+	print('---by Francesco Musi---\nPANORAMICA PER MATERIA:\n')
+
 
 	#media[0] corrisponde a materia[0]
 	materie = []
@@ -38,9 +42,6 @@ def draw(rows):
 	voti_max = []
 	voti_min = []
 
-	materie_da_recuperare = []
-	voti_della_materia_da_recuperare = []
-	lista_voti_necessari = []
 
 	for i in range(len(rows)):
 		if i%2 == 0:
@@ -61,9 +62,33 @@ def draw(rows):
 			#aggiungi voto minimo
 			voti_min.append(min(voti_matria_corrente))
 
+	#scorre i voti, medie... e se sono suffucienti gli attribuisce il colore verde, altrimenti rosso
 	for i in range(len(materie)):
-		print('{}:\n\tvoti: {}\n\tmedia: {}\n\tvoto massimo: {}\n\tvoto minimo: {}\n'.format(materie[i].upper(), voti[i], medie[i], voti_max[i], voti_min[i]))
+		data = [medie[i], voti_max[i], voti_min[i]]
+		data = [str(x) for x in data]
 
+		media, voto_max, voto_min = data
+
+		#attribuisce il colore a questi valori di questa materia 
+		if float(data[0]) > 6:
+			media = FgColors.green+data[0]+FgColors.rs
+		else:
+			media = FgColors.red+data[0]+FgColors.rs
+
+		if float(data[1]) > 6:
+			voto_max = FgColors.green+data[1]+FgColors.rs
+		else:
+			voto_max = FgColors.red+data[1]+FgColors.rs
+
+		if float(data[2]) > 6:
+			voto_min = FgColors.green+data[2]+FgColors.rs
+		else:
+			voto_min = FgColors.red+data[2]+FgColors.rs
+
+		###STAMPA LA PANORAMICA (per ogni materia)###
+		print('{}:\n\tvoti: {}\n\tmedia: {}\n\tvoto massimo: {}\n\tvoto minimo: {}\n'.format(materie[i].upper(), voti[i], media, voto_max, voto_min))
+
+	###STAMPA LE MEDIE COLORATE###
 	print('\n\nMEDIE')
 	for i in range(len(materie)):
 		color = FgColors.white
@@ -73,6 +98,7 @@ def draw(rows):
 			color = FgColors.green
 		print('{}: {}'.format(materie[i], color+str(medie[i])+FgColors.rs))
 
+	###STAMPA LA PROBABILE PAGELLA COLORATA###
 	print('\n\nPAGELLA')
 	for i in range(len(materie)):
 		color = FgColors.white
@@ -82,36 +108,16 @@ def draw(rows):
 			color = FgColors.green
 		print('{}: {}'.format(materie[i], color+str(round(medie[i]))+FgColors.rs))
 
-	for i in medie:
-		if i < 6:
-			index = medie.index(i)
-			materie_da_recuperare.append(materie[index])
-			voti_delle_materie_da_recuperare.append(voti[index])
+	##########################################################
+	#################### DA FARE: RECUPERI ###################
+	##########################################################
 
-			#ottieni lista voti per recuperare (lista_voti_necessari)
-			for v in range(600, 1000):
-				voti_necessari_materia_corrente = []
-				l = voti[index]
-				l.append(v/100)
-				if sum(l)/len(l) >= 6:
-					voti_necessari_materia_corrente.append(v/100)
-					lista_voti_necessari.append(voti_necessari_materia_corrente)
-					break
-			else:
-				shit = True
-
-	print(voti_delle_materie_da_recuperare)
-
-	if len(materie_da_recuperare) > 0 and not shit:
-		print('\n\nRECUPERI')
-		for i in range(len(materie_da_recuperare)):
-			print('{}: hai {} e ti serve {} per recuperare'.format(materie_da_recuperare[i]), voti_delle_materie_da_recuperare[i], lista_voti_necessari[i])
-	elif shit:
-		print('Ti serve un voto maggiore di 10: spegni il computer e comincia a studiare ')
-
-
+#mainloop
 while True:
 	clear()
 	rows = getRows('votes.txt')
 	draw(rows)
-	input()
+	z = input('\nreload (q per uscire)')
+	if z.lower() == 'q':
+		clear()
+		break

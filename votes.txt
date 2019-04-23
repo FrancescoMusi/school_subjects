@@ -26,4 +26,4 @@ scienze
 9 8 7.75 
 
 storia
-8 0 0 0 0 
+8
