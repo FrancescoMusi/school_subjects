@@ -82,7 +82,32 @@ def draw(rows):
 			color = FgColors.green
 		print('{}: {}'.format(materie[i], color+str(round(medie[i]))+FgColors.rs))
 
-	
+	for i in medie:
+		if i < 6:
+			index = medie.index(i)
+			materie_da_recuperare.append(materie[index])
+			voti_delle_materie_da_recuperare.append(voti[index])
+
+			#ottieni lista voti per recuperare (lista_voti_necessari)
+			for v in range(600, 1000):
+				voti_necessari_materia_corrente = []
+				l = voti[index]
+				l.append(v/100)
+				if sum(l)/len(l) >= 6:
+					voti_necessari_materia_corrente.append(v/100)
+					lista_voti_necessari.append(voti_necessari_materia_corrente)
+					break
+			else:
+				shit = True
+
+	print(voti_delle_materie_da_recuperare)
+
+	if len(materie_da_recuperare) > 0 and not shit:
+		print('\n\nRECUPERI')
+		for i in range(len(materie_da_recuperare)):
+			print('{}: hai {} e ti serve {} per recuperare'.format(materie_da_recuperare[i]), voti_delle_materie_da_recuperare[i], lista_voti_necessari[i])
+	elif shit:
+		print('Ti serve un voto maggiore di 10: spegni il computer e comincia a studiare ')
 
 
 while True:
