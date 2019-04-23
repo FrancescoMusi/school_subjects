@@ -1,0 +1,29 @@
+matematica
+10 8 8
+
+italiano
+6.75 6.5 7.5 6.5
+
+arte
+9.25 9.25
+
+fisica
+8.5 8.5
+
+imformatica
+9
+
+inglese
+8 5.25
+
+latino
+9
+
+ginnastica
+7.75
+
+scienze
+9 8 7.75 
+
+storia
+8 0 0 0 0 
