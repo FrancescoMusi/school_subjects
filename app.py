@@ -6,6 +6,7 @@ class FgColors:
 	white = '\033[97m'
 	red = '\033[31m'
 	green = '\033[32m'
+	orange = '\033[33m'
 	rs = '\033[00m'
 
 #pulisce lo schermo
@@ -41,6 +42,8 @@ def draw(rows):
 	voti = []
 	voti_max = []
 	voti_min = []
+	indici_insufficienze = []
+	voti_necessari = []
 
 
 	for i in range(len(rows)):
@@ -108,9 +111,24 @@ def draw(rows):
 			color = FgColors.green
 		print('{}: {}'.format(materie[i], color+str(round(medie[i]))+FgColors.rs))
 
-	##########################################################
-	#################### DA FARE: RECUPERI ###################
-	##########################################################
+	for i in medie: 
+		if i < 6:
+			###MATERIE INSUFFICIENTI E RECUPERI###
+			print('\n\nMATERIE INSUFFICIENTI')
+			for i in medie:
+				if i < 6:
+					indici_insufficienze.append(medie.index(i)) 
+
+			for i in indici_insufficienze:
+				voti_necessari.append(6  *  (len(voti[i])+1)  -  sum(voti[i]))
+
+			for i in indici_insufficienze:
+				if voti_necessari[indici_insufficienze.index(i)] <= 10:
+					print('Hai {} insufficiente, poichè ha i voti {} e la media del {}. Ti serve per recuperare {}.'.format(FgColors.orange+materie[i].upper()+FgColors.rs, voti[i], FgColors.red+str(medie[i])+FgColors.rs, FgColors.orange+str(voti_necessari[indici_insufficienze.index(i)]))+FgColors.rs) 
+				else:
+					print('Hai {} insufficiente, poichè ha i voti {} e la media del {}. Ti servirebbe per recuperare {}. Vai a sudiare'.format(FgColors.orange+materie[i].upper()+FgColors.rs, voti[i], FgColors.red+str(medie[i])+FgColors.rs, FgColors.orange+str(voti_necessari[indici_insufficienze.index(i)]))+FgColors.rs) 
+
+			break
 
 #mainloop
 while True:
